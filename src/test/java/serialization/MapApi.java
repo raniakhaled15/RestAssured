@@ -5,11 +5,8 @@ import org.testng.annotations.Test;
 import pojo.maps.Location;
 import pojo.maps.PlaceDetails;
 
-import java.io.File;
-
 import static io.restassured.RestAssured.given;
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.emptyCollectionOf;
 import static org.hamcrest.Matchers.equalTo;
 
 public class MapApi {
@@ -36,7 +33,7 @@ public class MapApi {
         String addPlaceResponse = given().log().all().queryParam("key", "qaclick123")
                 .header("content-type", "application/json")
                 .body(pl)
-                .when().post("/maps/api/place/add/json")
+                .when().post("/mapsAPI/api/place/add/json")
                 .then().assertThat().statusCode(200)
                 .assertThat().body("scope", equalTo("APP"))
                 .log().body()

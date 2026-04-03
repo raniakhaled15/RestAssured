@@ -1,4 +1,4 @@
-package maps;
+package mapsAPI;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
@@ -25,7 +25,7 @@ public class MapsRequest {
         String addPlaceResponse = given().log().all().queryParam("key", "qaclick123")
                 .header("content-type", "application/json")
                 .body(jsonFile)
-                .when().post("maps/api/place/add/json")
+                .when().post("mapsAPI/api/place/add/json")
                 .then().assertThat().statusCode(200)
                 .assertThat().body("scope", equalTo("APP"))
                 .extract().response().asString();
@@ -42,7 +42,7 @@ public class MapsRequest {
                 .queryParam("place_id", placeID)
                 .header("content-type","application/json")
                 .body(updatePlaceRequestBody(placeID,newAddress))
-                .when().put("maps/api/place/update/json")
+                .when().put("mapsAPI/api/place/update/json")
                 .then().assertThat().statusCode(200)
                 .log().all();
 
@@ -50,7 +50,7 @@ public class MapsRequest {
         String getPlaceResponse = given().queryParam("key","qaclick123")
                 .queryParam("place_id", placeID)
                 .header("content-type","application/json")
-                .when().get("maps/api/place/get/json")
+                .when().get("mapsAPI/api/place/get/json")
                 .then().assertThat().statusCode(200)
                 .body("address", equalTo(newAddress))
                 .extract().response().asString();
@@ -60,12 +60,12 @@ public class MapsRequest {
         Assert.assertEquals(actualAddress, newAddress,"addresses don't match");
 
         // Delete place request
-//        given().queryParam("key","qaclick123")
-//                .header("content-type","application/json")
-//                .body(deletePlaceRequestBody(placeID))
-//                .when().delete("maps/api/place/delete/json")
-//                .then().assertThat().statusCode(200)
-//                .log().all();
+        given().queryParam("key","qaclick123")
+                .header("content-type","application/json")
+                .body(deletePlaceRequestBody(placeID))
+                .when().delete("mapsAPI/api/place/delete/json")
+                .then().assertThat().statusCode(200)
+                .log().all();
 
     }
 }
